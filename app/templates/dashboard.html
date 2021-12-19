@@ -1,0 +1,164 @@
+{% include "base.html" %}
+{% block content %}
+<head>
+    <link rel="stylesheet" href="../static/dashboard.css ">
+</head>
+<div class="profile1" style="border: 1px solid black; position: absolute; padding: 15px; text-align: center;">
+    <div class="profile-image">
+        <img style="width: 55px; height: 55px; border-radius: 100px; border: 2px solid #E66677; padding: 5px;"
+            src="https://avatars.dicebear.com/api/bottts/{{ session['user_id'] }}.svg" alt="" />
+        <h3>{{session['username']}}</h3>
+    </div>
+</div>
+<div class="container">
+    <hr style="margin-bottom: 4px; width: 50%;">
+    <form id="showform">
+        <input name="id" placeholder="Type your ID to see your information">
+        <button type="submit">Show</button>
+    </form>
+    <hr style="margin-bottom: 4px; width: 50%;">
+    <form id="datac">
+        <input type="text" name="for" placeholder="What is your data for?">
+        <input type="password" name="data" placeholder="What is the data?">
+        <button type="submit" >Vault</button>
+    </form>
+    <hr style="margin-bottom: 4px; width: 50%;">
+    <form id="deldata">
+        <input type="number" name="idnum" placeholder="Enter ID of the data to delete">
+        <button type="submit">Delete</button>
+    </form>
+    <hr style="margin-bottom: 4px; width: 50%;">
+    <form id="alterdata">
+        <input type="number" name="idnumm" placeholder="Input the ID of the data you want to alter">
+        <input type="text" name="for" placeholder="What is the new data for?">
+        <input type="password" name="data" placeholder="What is the new data?">
+        <button type="submit">Alter</button>
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $('#datac').submit(function(e) {
+            e.preventDefault();
+            let formData = {
+                'for': $('input[name=for]').val(),
+                'data': $('input[name=data]').val()
+            };
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                url: "{{ url_for('add_data') }}",
+                data: JSON.stringify(formData),
+                success: function(data) {
+                    console.log(data);
+                }
+            }).done(function(data) {
+                if (data.success) {
+                    $('.console').append('Data has been Vaulted. Remember the id: <strong>' + data.id + ' </strong> for future reference<br>');
+                }
+            });
+        })
+        $('#showform').submit(function(e) {
+            e.preventDefault();
+            let formData = {
+                'id': $('input[name=id]').val()
+            };
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                url: "{{ url_for('get_data') }}",
+                data: JSON.stringify(formData),
+                success: function(data) {
+                    console.log(data);
+                }
+            }).done(function(data) {
+                if (data.success) {
+                    if (data.data != undefined) {
+                    $('.console').append('<p> ID: '+ data.data[0] +' = ' + data.data[2] + ', For: '+ data.data[1] +'</p><br>');
+                    } else {
+                        $('.console').append(data.msg + '<br>');
+                    }
+                }
+            });
+        })
+        $('#deldata').submit(function(event) {
+            event.preventDefault();
+            let formData = {
+                'id': $('#deldata input[name=idnum]').val()
+            };
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                url: "{{ url_for('delete_data') }}",
+                data: JSON.stringify(formData),
+                success: function(data) {
+                    console.log(data);
+                }
+            }).done(function(data) {
+                if (data.success) {
+                    if (data.id != undefined) {
+                        $('.console').append('Data with id: <strong>' + data.id + '</strong> has been deleted.<br>');
+                    } else {
+                        $('.console').append('No data with that id was found.<br>');
+                    }
+                }
+            });
+            $('#deldata input[name=idnum]').val('');
+        })
+        $('#alterdata').submit(function(event) {
+            event.preventDefault();
+            let formData = {
+                'id': $('#alterdata input[name=idnumm]').val(),
+                'for': $('#alterdata input[name=for]').val(),
+                'data': $('#alterdata input[name=data]').val()
+            };
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                url: "{{ url_for('alter_data') }}",
+                data: JSON.stringify(formData),
+                success: function(data) {
+                    console.log(data);
+                }
+            }).done(function(data) {
+                if (data.success) {
+                    if (data.id != undefined) {
+                        $('.console').append('<p>Object with ID <strong>' + data.id + '</strong>` has been altered</p><br>');
+                    } else if (data.unauthorized) {
+                        $('.console').append('You are not authorized to alter data with id: <strong>' + data.id + '</strong>.<br>');
+                    } else {
+                        $('.console').append('No data with that id was found.<br>');
+                    }
+                }
+            });
+            $('#alterdata input[name=idnumm]').val('');
+            $('#alterdata input[name=for]').val('');
+            $('#alterdata input[name=data]').val('');
+        })
+        $('#delacc').submit(function(event) {
+            event.preventDefault();
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                url: "{{ url_for('delete_account') }}",
+                success: function(data) {
+                    console.log(data);
+                }
+            }).done(function(data) {
+                if (data.success) {
+                    window.location.href = '/register';
+                    $('.console').append(data.msg);
+                }
+            });
+        })
+    </script>
+</div>
+<br>
+<div class="console">
+    <p>DataVault Console Enabled _</p>
+    <hr style="width: 100%; border: 1px solid greenyellow; margin-top: 2px; margin-bottom: 2px;">
+</div>
+{% endblock %}

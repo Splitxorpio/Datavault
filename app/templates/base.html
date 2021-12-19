@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <head>
+        <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          background-color: #fff;
+          color: #111;
+          border: 1px solid gray;
+        }
+        
+        li {
+          float: left;
+        }
+        
+        li a {
+          display: block;
+          color: #111;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+          transition-duration: 0.45s;
+        }
+        
+        li a:hover {
+          transition-duration: 0.45s;
+          background-color: #000;
+          color: #fff;
+        }
+        </style>
+        </head>
+        <body>
+        
+        <ul>
+          <li><a href="/index">Home</a></li>
+          <li><a style="float:right"  href="/register">Signup</a></li>
+          <li style="float:right"><a class="active" href="/login">Sign In</a></li>
+        </ul>
+        
+        </body>
+    {% block content %}{% endblock %}
+</html>

@@ -1,0 +1,53 @@
+{% include "base.html" %}
+{% include "bg.html" %}
+{% block content %}
+{% if msg %}
+    {{ msg }}
+{% endif %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/login.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+    </style>
+</head>
+<body>
+    <div class="container" style="z-index: 1;">
+        <div class="formbox" style="background-color: white; z-index: 1; width: 20%;">
+            <h1>Signup</h1>
+            <hr style="margin: 5px; width: 80%;">
+            <form action="{{ url_for('register') }}" method='POST'>
+                <input name="fname" placeholder="First Name">
+                <br>
+                <input name="lname" placeholder="Last Name">
+                <br>
+                <input name="email" placeholder="Email">
+                <br>
+                <input name="username" placeholder="Username">
+                <br>
+                <input name="password" placeholder="Password" type="password">
+                <br>
+                <input name="rpass" placeholder="Confirm Password" type="password">
+                <br>
+                <button type="submit">Sign Up</button>
+            </form>
+            {% if msg %}
+            <p>{{ msg }}</p>
+            {% endif %}
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+            <script>
+            </script>
+        </div>
+        <br>
+        <a style="z-index: 1;" href="/login">Already Registered? Go Here!</a>
+
+    </div>
+</body>
+    
+{% endblock %}
+<!-- im gay -->

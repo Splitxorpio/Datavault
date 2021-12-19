@@ -1,0 +1,43 @@
+{% include "base.html" %}
+{% include "bg.html" %}
+
+
+{% block content %}
+{% if msg %}
+    {{ msg }}
+{% endif %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../static/login.css">
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    </head>
+    <body>
+        <div class="container" style="z-index: 1;">
+            <div class="formbox" style="background-color: white; z-index: 1;">
+                <h1>Login</h1>
+                <hr style="margin: 5px; width: 80%;">
+                <form action="{{ url_for('login') }}" method="post" style="z-index: 1;">
+                    <input type="email" placeholder="Email" name="email">
+                    <br>
+                    <input type="password" placeholder="Password" name="password">
+                    <br>
+                    <button type="submit">Login</button>
+                    <br>
+                    <br>
+                    <div class="g-recaptcha" data-sitekey="6LdaYhgcAAAAAOlRvg-fili6zKkmjSZeQwOMjYsg" name="notbot"></div>
+                    
+                </form>
+            </div>
+            <br>
+            <a style="z-index: 1;" href="/register">Not Registered? Go Here!</a>
+        </div>
+
+    </body>
+    </html>
+
+{% endblock %}

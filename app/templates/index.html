@@ -1,0 +1,71 @@
+{% include "base.html" %}
+{% include "bg.html" %}
+
+{% block content %}
+{% if msg %}
+{{ msg }}
+{% endif %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/login.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+        .row{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        .one-of-two{
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        @keyframes float {
+            0% {
+                transform: translatey(0px);
+            }
+            50% {
+                transform: translatey(-20px);
+            }
+            100% {
+                transform: translatey(0px);
+            }
+        }
+        img{
+            animation: float 6s ease-in-out infinite;
+            width: 500px;
+            height: 500px;
+            border-radius: 10000px;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas style="z-index: 0; position: absolute;" id="nokey" width="100px" height="100px">
+    </canvas>
+    <div class="container" style="z-index: 1;">
+        <div class="row" style="z-index: 1;">
+            <div class="one-of-two" style="z-index: 1;">
+                <h1 style="font-size: 100px; font-weight: 100;" style="z-index: 1;">DATAVAULT</h1>
+                <h1 style="z-index: 1;">Data Stashing Made Easier</h1>
+            </div>
+            <div class="one-of-two">
+                <img src="https://png.pngtree.com/png-vector/20190320/ourlarge/pngtree-vector-vault-icon-png-image_850794.jpg" alt="">
+            </div>
+        </div>
+    </div>
+    
+</body>
+
+</html>
+
+{% endblock %}
